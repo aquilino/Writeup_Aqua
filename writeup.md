@@ -175,6 +175,7 @@ tenemos acceso como usuario anonymous
 
 ## FTP
 
+~~~
 > ftp 192.168.2.242
 Connected to 192.168.2.242.
 220 (vsFTPd 3.0.3)
@@ -202,6 +203,7 @@ drwxr-xr-x    3 0        0            4096 Feb 03  2021 ..
 226 Directory send OK.
 ftp> get .backup.zip
 local: .backup.zip remote: .backup.zip
+~~~
 
 accedemos veremos una carpeta y dentro tenemos un archivo zip
 
