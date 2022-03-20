@@ -107,12 +107,12 @@ hay un repo de github  de SuperCMS, nos descargamos el repositorio y accedemos a
 cd SuperCMS
 le hacemos un  git log y miramos los commits
 buscamos algun commit sospechoso  y veremos uno que crea un archivo de texto knocking_on_Atlantis_door.txt
-
+bash'''
 ❯ git log -c 58afe63a1cd28fa167b95bcff50d2f6f011337c1
 commit 58afe63a1cd28fa167b95bcff50d2f6f011337c1
 Author: aquilino <hidro23@hotmail.com>
 Date:   Thu Jun 17 12:59:05 2021 +0200
-
+'''
     Create knocking_on_Atlantis_door.txt
     
     Las Puertas del avismo
