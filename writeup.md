@@ -1,12 +1,12 @@
-#Maquina Aqua
+# Maquina Aqua
 
 Sistema Operativo: Linux
 Dificultad: Media
 
 # Enumeracion de Puertos y Servicios
--------------------------
+
 # PUERTOS
-------------------------
+
 PORT     STATE SERVICE
 22/tcp   open  ssh
 80/tcp   open  http
@@ -15,7 +15,7 @@ PORT     STATE SERVICE
 
 -------------------------
 # SERVICIOS
----------------------------
+
 
 PORT     STATE SERVICE VERSION
 22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
@@ -33,9 +33,10 @@ PORT     STATE SERVICE VERSION
 |_http-title: Apache Tomcat/8.5.5
 MAC Address: 08:00:27:7E:F4:F5 (Oracle VirtualBox virtual NIC)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
------------------------------
-con nmap enumeraremos 4 directorios y archivos que contiene 
-----------------------------
+
+# Con nmap enumeraremos 4 directorios y archivos que contiene 
+
+
  nmap --script http-enum -p80,8080 192.168.2.242 -oN webscan
 Starting Nmap 7.70 ( https://nmap.org ) at 2022-03-16 16:14 CET
 Nmap scan report for 192.168.2.242
@@ -55,7 +56,7 @@ PORT     STATE SERVICE
 |_  /docs/: Potentially interesting folder
 MAC Address: 08:00:27:7E:F4:F5 (Oracle VirtualBox virtual NIC)
 
-#Puerto 80
+# Puerto 80
 # Enumeracion Web
 
 La pagina web tiene un texto  
@@ -64,22 +65,20 @@ La pagina web tiene un texto
 
 El (agua)1 es una sustancia cuya molécula está compuesta por dos átomos de hidrógeno y uno de oxígeno (H2O)2.
 
-#robots.txt
+# robots.txt
 
 /SuperCMS
 
-#Fuzzing
+# Fuzzing
 
-web puerto 80
+# web puerto 80
 http://192.168.2.242/
 
 000039:  C=301      9 L	      28 W	    312 Ch	  "img"
 000550:  C=301      9 L	      28 W	    312 Ch	  "css"
-#-------------------------------------------
+
+
 http://192.168.2.242/SuperCMS
-==================================================================
-ID   Response   Lines      Word         Chars          Payload    
-==================================================================
 
 000002:  C=200    149 L	      25 W	    799 Ch	  "index - html"
 000116:  C=200     47 L	      90 W	   2146 Ch	  "login - html"
@@ -97,7 +96,7 @@ tenemos una pagina llamada login.html le echamos un vistazo contiene un panel de
 
 pero si miramos el codigo tiene un par de lienas comentadas
 
-#------------------------------------------
+# ------------------------------------------
 <!--<button class="btn" href="www.twitter.com/AquilinoMS">Contact</button>-->
 <!--https://web.archive.org/web/*/www.twitter.com/**********-->
 <!--<p class ="Source"SuperCMS<span><a href="github.com/aquilino/SuperCMS"> look source code</a></span></p>-->
