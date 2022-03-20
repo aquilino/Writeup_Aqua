@@ -1,5 +1,7 @@
 # Maquina Aqua
 
+![HackMyVM](https://github.com/aquilino/Writeup_Aqua/blob/main/aqua.jfif)
+
 ## Sistema Operativo: Linux
 ## Dificultad: Media
 
