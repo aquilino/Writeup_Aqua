@@ -36,7 +36,8 @@ PORT     STATE SERVICE VERSION
 MAC Address: 08:00:27:7E:F4:F5 (Oracle VirtualBox virtual NIC)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ~~~
-# Con nmap enumeraremos 4 directorios y archivos que contiene 
+
+Con nmap enumeraremos 4 directorios y archivos que contiene 
 
 ~~~
  nmap --script http-enum -p80,8080 192.168.2.242 -oN webscan
